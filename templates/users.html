@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block title %}Users{% endblock %}
+
+{% block content %}
+
+<div class="container" style="margin-left: 0;">
+    <h3><a href="/users">Users</a></h3>
+    <p>
+        This page is used to manage the Users table. 
+        <ul>
+            <li>The "Users Table" displays all the exsiting users.</li>
+            <li>Normally, the users' information should come from the customer facing website. But still, the admin staff can add a user's information manually.</li>
+            <li>To maintain the website, the admin staff can also update/delete users' accounts.</li>  
+        </ul>   
+    </p>   
+</div>
+
+<div class="container-fluid">
+    <div class='row'>
+        <!-- Add a new account -->
+        <div class="col-lg">
+            <form id="add-account">
+                <div>
+                    <h4>Add New User Account</h4>
+                </div>
+                <div>
+                    <label class="col-sm-4 col-form-label">User Name</label> 
+                    <input type="text" name="user_name" id="user_name">
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 col-form-label">User Password</label> 
+                    <input type="text" name="user_password" id="user_password">
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 col-form-label">User Email</label> 
+                    <input type="email" name="user_email" id="user_email">
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 col-form-label">Register Date</label> 
+                    <input type="date" name="regis_date" id="regis_date">
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 col-form-label">Active</label>
+                    <select name="active" id="active">
+                        <option value="1">True</option>
+                        <option value="0">False</option>
+                    </select> 
+                </div>
+                <input class="btn btn-primary" type="button" name="add" value="Add" id="add-user">
+            </form>
+        </div>
+        <!-- Search Form -->
+        <!-- <div class="col-lg">
+            <div>
+                <h4>Search User Account</h4>
+            </div>
+            <div>
+                <form class="form-group" id="search-account" action="/api/users" method="GET">
+                    <input type="search" placeholder="email" name="user_email">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>        
+        </div> -->
+    </div>
+</div>
+<br>
+<div><p id="error-message"></p></div>
+
+<!-- Table to display the add/search result -->
+<div class="container-fluid">
+    <h4>User Accounts table</h4>
+    <table class="container" class="table table-striped" style="margin-left: 0;">
+        <thead>
+        <tr>
+            <th scope="col">User ID#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Password</th>
+            <th scope="col">Email</th>
+            <th scope="col">Register Date</th>
+            <th scope="col">Active</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody id="user-table"></tbody> 
+    </table>
+</div>
+<br>
+<br>
+<!-- <div class="container-fluid">
+    <div>
+        <h4>User Data</h4>
+    </div>
+    <form class="container" action="/api/users/new" method="GET" style="margin-left: 0;">    
+        <div class="form-group">
+            <label>From: <input class="form-control" type="date" name="start_date"></label> 
+            <label>To: <input class="form-control" type="date" name="end_date"></label>
+        </div>
+        <input class="btn btn-primary" type="submit" name="choose" value="Choose">
+    </form>
+</div> -->
+<br>
+<br>
+<!-- <div class="container-fluid">
+    <h4>Here is the number of new customers by day</h4>
+    <table class="container" class="table table-striped" style="margin-left: 0;">
+        <thead>
+        <tr>
+            <th scope="col">Register Date</th>
+            <th scope="col">New Customers</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for number in numbers %}
+        <tr>
+            <th scope="row">{{number[0]}}</th>
+            <td>{{number[1]}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div> -->
+
+<br>
+<br>
+
+{% raw %}
+<template id="user-template">
+    <tr>
+        <th scope="row">{{user_id}}</th>
+        <td><span class="noedit name">{{user_name}}</span><input class="edit name" ></td>
+        <td><span class="noedit password">{{user_password}}</span><input class="edit password" ></td>
+        <td><span class="noedit email">{{user_email}}</span><input class="edit email" ></td>
+        <td><span class="noedit regis">{{regis_date}}</span><input type="date" class="edit regis" ></td>
+        <td><span class="noedit active">{{active}}</span>
+            <select class="edit active">
+                <option value="1">True</option>
+                <option value="0">False</option>
+            </select>
+        </td>
+        <td>
+            <input class="btn btn-primary noedit" type="button" value="Delete" user_id="{{user_id}}" id="delete-user">
+            <input class="btn btn-primary noedit" type="button" value="Edit" user_id="{{user_id}}" id="edit-user">
+            <input class="btn btn-primary edit" type="button" value="Save" user_id="{{user_id}}" id="save-edit-user">
+            <input class="btn btn-primary edit" type="button" value="Cancel" user_id="{{user_id}}" id="cancel-edit-user">
+        </td>
+    </tr>
+</template>
+{% endraw %}
+
+<script src=" {{ url_for('static', filename='users.js') }}"></script>
+
+{% endblock %}

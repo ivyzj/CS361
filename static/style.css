@@ -1,0 +1,30 @@
+/* #add-account {
+    float: left;
+    border: 1px solid black;
+}
+
+#search-account {
+    float: left;
+    clear: right;
+    margin-right: 100px;
+} */
+
+.container-liquid {
+    padding-left: 15px;
+}
+
+.flash {
+    color: red;
+}
+
+table tbody tr .edit {
+    display: none;
+}
+
+table tbody tr.edit .edit {
+    display: initial;
+}
+
+table tbody tr.edit .noedit {
+    display: none;
+}
