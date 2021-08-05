@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Learning{% endblock %}
+
+{% block content %} 
+<div class="container" style="margin-left: 0;">
+  <h3>Here is the image for the word!</h3>
+  <img src="/static/images/sheep.jpg" alt="sheep" width="500" height="400"> 
+</div>
+
+<br>
+
+
+<br>
+<br>
+<!-- Table to display the add/search result -->
+<div class="container-fluid">
+  <form action="/api/learning/{{id}}">
+    <h4>What's in the picture?</h4>
+    <input type="radio" id="choice_1" value="choice_1">
+    <label for="choice_1">羊</label><br>
+    <input type="radio" id="choice_2" value="choice_2">
+    <label for="choice_2">牛</label><br>
+    <input type="radio" id="choice_3" value="choice_3">
+    <label for="choice_3">马</label>
+    <br>  
+    <input type="submit" value="Submit">
+    <input type="submit" value="Next">
+  </form>
+</div>
+
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+		{% for msg in messages %}
+			<h5 class="container-fluid" id="flash">{{msg}}</h5>
+		{% endfor %}
+	{% endif %}
+{% endwith %}
+
+
+
+
+<br>
+<br>
+
+<!-- <div class="container" class="form-inline my-2 my-lg-0" style="margin-left: 0;">
+  <div>
+    <h4>Calculate Accuracy of Questions</h4>
+  </div>
+  <div class="row">
+    <div class="col-sm">
+      <form action="/api/quiz_questions/statistic" method="GET">
+        <label>Select by Question ID: <input class="form-control" type="text" name="ques_id"></label>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Submit</button>
+      </form> 
+    </div>
+    <div class="col-sm">
+      <form action="/api/quiz_questions/statisticy" method="GET">
+        <label>Select All Questions: </label>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Select All</button>
+      </form>
+    </div> 
+  </div> 
+</div> -->
+<br>
+
+<!-- Table to display the accuracy result -->
+<!-- <div class="container-fluid">
+  <h4>The ACCURACY RESULT </h4>
+  <table class="container" class="table table-striped" style="margin-left: 0;">
+      <thead>
+      <tr>
+          <th scope="col">Question ID</th>
+          <th scope="col">Total_score</th>
+          <th scope="col">Frequency</th>
+          <th scope="col">Accuracy(%)</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for data in accuracy %}
+      <tr>
+          <th scope="row">{{data[0]}}</th>
+          <td>{{data[1]}}</td>
+          <td>{{data[2]}}</td>
+          <td>{{data[3]*100}}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+</div> -->
+<br>
+<br>
+
+
+<!-- This is the Delete area -->
+<!-- <form class="container" class="form-inline my-2 my-lg-0" style="margin-left: 0;">
+  <div>
+    <h4>Delete Data from the Database</h4>
+  </div>
+  <div>
+    <label>Select time from: <input class="form-control" type="date" name="start_date"></label>
+    <label>to: <input class="form-control" type="date" name="end_date"></label>
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Submit</button>
+  </div>  
+</form> -->
+<br>
+<br>
+<br>
+
+{% endblock %}

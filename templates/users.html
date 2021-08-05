@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}My Page{% endblock %}
+
+{% block content %} 
+<div class="container" style="margin-left: 0;">
+  <h3><a href="/users"></a> My Learning Journey</h3>
+  <p>You have learned: 0 out of 100 words</p>  
+</div>
+<br>
+
+<div class="container-fluid">
+  <form action="/learning/1" method="get">
+    <button class="btn btn-primary" type="submit">Start Today's Learning</button>
+  </form>
+</div>
+
+{% endblock %}
