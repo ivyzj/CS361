@@ -21,15 +21,25 @@ def users_page():
 def faq_page():
     return render_template('faq.html')
 
-@app.route("/learning/<int:id>", defaults={'id': 1}, methods=["GET"])
+@app.route("/learning/page=<int:id>", defaults={'id': 1}, methods=["GET"])
 def learning_page(id):
     print(id)
     db_connection = connect_to_database()
     
-    query = "select * from Words where word_id=%s"
+    query = "select word as keyword, chinese_char as rightAns from Words where word_id=%s"
     data = execute_query(db_connection, query, (id,)).fetchone()
     print(data)
-    return render_template('learning.html', data=data)
+    if 1 <= id <=3:
+        choice_query = "select chinese_char as choices from Words where word_id>=1 and word_id <=3;"
+        choices = execute_query(db_connection, query).fetchall()
+        print(choices)
+    
+    if 4 <= id <= 6:
+        choice_query = "select chinese_char as choices from Words where word_id>=4 and word_id <=6;"
+        choices = execute_query(db_connection, query).fetchall()
+        print(choices)
+
+    return render_template('learning.html', data=data, choices=choices)
 
 @app.route("/quiz", methods=["GET"])
 def quiz_page():

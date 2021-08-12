@@ -4,7 +4,7 @@
 {% block content %} 
 <div class="container" style="margin-left: 0;">
   <h3>Here is the image for the word!</h3>
-  <img src="/static/images/sheep.jpg" alt="sheep" width="500" height="400"> 
+  <img id="add-image" width="500" height="400"> 
 </div>
 
 <br>
@@ -13,18 +13,21 @@
 <br>
 <br>
 <!-- Table to display the add/search result -->
+{% raw %}
+<template id="user-template">
+    <tr><span class="noedit name"> <input type="radio">{{choice}}</span></tr>
+</template>
+{% endraw %}
+
 <div class="container-fluid">
   <form action="/api/learning/{{id}}">
     <h4>What's in the picture?</h4>
-    <input type="radio" id="choice_1" value="choice_1">
-    <label for="choice_1">羊</label><br>
-    <input type="radio" id="choice_2" value="choice_2">
-    <label for="choice_2">牛</label><br>
-    <input type="radio" id="choice_3" value="choice_3">
-    <label for="choice_3">马</label>
-    <br>  
-    <input type="submit" value="Submit">
-    <input type="submit" value="Next">
+    {% raw %}
+    <template id="word-template">
+        <tr><span><input type="radio">{{choice}}</span></tr>
+    </template>
+    {% endraw %}
+    <input class="btn btn-primary edit" type="button" value="submit" word_id="{{word_id}}" id="check-ans">
   </form>
 </div>
 
@@ -105,5 +108,6 @@
 <br>
 <br>
 <br>
+<script src=" {{ url_for('static', filename='learning.js') }}"></script>
 
 {% endblock %}
