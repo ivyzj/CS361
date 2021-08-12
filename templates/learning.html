@@ -8,106 +8,30 @@
 </div>
 
 <br>
-
-
 <br>
-<br>
-<!-- Table to display the add/search result -->
-{% raw %}
-<template id="user-template">
-    <tr><span class="noedit name"> <input type="radio">{{choice}}</span></tr>
-</template>
-{% endraw %}
 
 <div class="container-fluid">
-  <form action="/api/learning/{{id}}">
+  <form action="/api/learning/{{word_id}}" method="POST">
     <h4>What's in the picture?</h4>
-    {% raw %}
-    <template id="word-template">
-        <tr><span><input type="radio">{{choice}}</span></tr>
-    </template>
-    {% endraw %}
-    <input class="btn btn-primary edit" type="button" value="submit" word_id="{{word_id}}" id="check-ans">
+    {% for choice in choices %}
+    <td><input type="radio" name='chosen_ans' value="{{choice[0]}}">{{choice[0]}}</td>
+    {% endfor %}
+    <input class="btn btn-primary edit" type="submit" value="submit" word_id="{{word_id}}" id="check-ans">
   </form>
 </div>
 
-{% with messages = get_flashed_messages() %}
-	{% if messages %}
-		{% for msg in messages %}
-			<h5 class="container-fluid" id="flash">{{msg}}</h5>
-		{% endfor %}
-	{% endif %}
-{% endwith %}
+
+{% if msg %}
+<h5 class="container-fluid" id="flash">{{msg}}</h5>
+{% endif %}
+
 
 
 
 
 <br>
 <br>
-
-<!-- <div class="container" class="form-inline my-2 my-lg-0" style="margin-left: 0;">
-  <div>
-    <h4>Calculate Accuracy of Questions</h4>
-  </div>
-  <div class="row">
-    <div class="col-sm">
-      <form action="/api/quiz_questions/statistic" method="GET">
-        <label>Select by Question ID: <input class="form-control" type="text" name="ques_id"></label>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Submit</button>
-      </form> 
-    </div>
-    <div class="col-sm">
-      <form action="/api/quiz_questions/statisticy" method="GET">
-        <label>Select All Questions: </label>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Select All</button>
-      </form>
-    </div> 
-  </div> 
-</div> -->
 <br>
-
-<!-- Table to display the accuracy result -->
-<!-- <div class="container-fluid">
-  <h4>The ACCURACY RESULT </h4>
-  <table class="container" class="table table-striped" style="margin-left: 0;">
-      <thead>
-      <tr>
-          <th scope="col">Question ID</th>
-          <th scope="col">Total_score</th>
-          <th scope="col">Frequency</th>
-          <th scope="col">Accuracy(%)</th>
-      </tr>
-      </thead>
-      <tbody>
-      {% for data in accuracy %}
-      <tr>
-          <th scope="row">{{data[0]}}</th>
-          <td>{{data[1]}}</td>
-          <td>{{data[2]}}</td>
-          <td>{{data[3]*100}}</td>
-      </tr>
-      {% endfor %}
-      </tbody>
-  </table>
-</div> -->
-<br>
-<br>
-
-
-<!-- This is the Delete area -->
-<!-- <form class="container" class="form-inline my-2 my-lg-0" style="margin-left: 0;">
-  <div>
-    <h4>Delete Data from the Database</h4>
-  </div>
-  <div>
-    <label>Select time from: <input class="form-control" type="date" name="start_date"></label>
-    <label>to: <input class="form-control" type="date" name="end_date"></label>
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Submit</button>
-  </div>  
-</form> -->
-<br>
-<br>
-<br>
-<script src=" {{ url_for('static', filename='learning.js') }}"></script>
+<!-- <script src=" {{ url_for('static', filename='learning.js') }}"></script> -->
 
 {% endblock %}

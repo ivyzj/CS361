@@ -8,6 +8,7 @@ $(document).ready( function(){
         url: "/api/learning/" + id,
         success: function(res, status, xhr) {
             $.each(res, function (index, word) {
+                console.log(word)
                 let imgURL = 'https://cs361-micro.herokuapp.com/api/title/' + word
                 $('#add-image').attr('src', imgURL)
             });

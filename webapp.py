@@ -21,66 +21,62 @@ def users_page():
 def faq_page():
     return render_template('faq.html')
 
-@app.route("/learning/page=<int:id>", defaults={'id': 1}, methods=["GET"])
-def learning_page(id):
-    print(id)
-    db_connection = connect_to_database()
-    
-    query = "select word as keyword, chinese_char as rightAns from Words where word_id=%s"
-    data = execute_query(db_connection, query, (id,)).fetchone()
-    print(data)
-    if 1 <= id <=3:
-        choice_query = "select chinese_char as choices from Words where word_id>=1 and word_id <=3;"
-        choices = execute_query(db_connection, query).fetchall()
-        print(choices)
-    
-    if 4 <= id <= 6:
-        choice_query = "select chinese_char as choices from Words where word_id>=4 and word_id <=6;"
-        choices = execute_query(db_connection, query).fetchall()
-        print(choices)
-
-    return render_template('learning.html', data=data, choices=choices)
-
-@app.route("/quiz", methods=["GET"])
-def quiz_page():
-    return render_template('quiz.html')
-
 @app.route("/shopping", methods=["GET"])
 def shopping_page():
     return render_template('shopping.html')
 
-@app.route("/api/learning")
-def next_word():
-    id = request.args.get()
-    word_id = int(id) + 1
-    redirect(url_for('learning_page()', id=word_id))
+@app.route("/learning/page=<int:id>", defaults={'id': 1}, methods=["GET"])
+def learning_page(id):
+    print(id)
 
+    db_connection = connect_to_database()
+    # query = "select word as keyword, chinese_char as rightAns from Words where word_id=%s"
+    # data = execute_query(db_connection, query, (id,)).fetchone()
+    # print(data)
+    if 1 <= id <=3:
+        choice_query = "select chinese_char as choices from Words where word_id>=1 and word_id <=3;"
+        choices = execute_query(db_connection, choice_query).fetchall()
+        print(choices)
+    
+    if 4 <= id <= 6:
+        choice_query = "select chinese_char as choices from Words where word_id>=4 and word_id <=6;"
+        choices = execute_query(db_connection, choice_query).fetchall()
+        print(choices)
+
+    return render_template('learning.html', word_id=id, choices=choices)
 
 
 @app.route("/api/learning/<int:id>", methods=["POST", "GET"])
-def check_answer(id):
-    if request.form['choice_1']:
-        chosen_ans = request.form['choice_1']
-    elif request.form['choice_2']:
-        chosen_ans = request.form['choice_2']
-    else:
-        chosen_ans = request.form['choice_3']
+def find_word(id):
+    if request.method == "GET":
+        db_connection = connect_to_database()
+        query = "select word from Words where word_id=%s"
+        param = (id,)
+        word = execute_query(db_connection, query, param).fetchone()
+        print(word)
+        return word[0] 
+    
+    if request.method == "POST":
+        print('submit button click')
+        chosen_ans = request.form['chosen_ans']
+        print(chosen_ans)
+        check_answer(chosen_ans, id)
 
+
+def check_answer(answer, id):
     db_connection = connect_to_database()
     query = 'Select chinese_char from Words where word_id=%s'
     data = execute_query(db_connection, query, (id,)).fetchone()
-    if data[0] == chosen_ans:
-
-        msg = jsonify({
-            'msg': 'Congrats, you are right.'
-        })
+    print(data)
+    if data[0] == answer:
+        flash('Congrats, you are right.')
+        return
     else:
-        msg = jsonify({
-            'msg': 'Wrong! Try it again.'
-        })
-    return redirect(url_for('learning_page', id=id, msg=msg))
+        flash('Wrong! Try it again.')
+        return
 
 
+    
 
 
 if __name__ == "__main__":
